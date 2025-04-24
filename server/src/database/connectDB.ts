@@ -1,11 +1,14 @@
 import { Sequelize } from "sequelize-typescript";
 import path from "path";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const sequelize = new Sequelize({
-  host: "localhost",
-  username: "root",
-  password: "root@ashok",
-  database: "nextJs-Login",
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   port: 3306,
   dialect: "mysql",
   models: [path.join(__dirname, "../models/*.ts")], //load all your model files automatically into Sequelize
