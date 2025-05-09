@@ -20,12 +20,6 @@ export default class User extends Model<user> {
   password!: string;
 
   @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-  name!: string;
-
-  @Column({
     type: DataType.DATE,
     defaultValue: DataType.NOW,
   })

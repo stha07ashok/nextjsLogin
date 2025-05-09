@@ -10,7 +10,7 @@ export default function ThemeToggle() {
     <>
       <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
         {theme === "dark" ? (
-          <div className="text-[26px] text-black dark:text-white font-bold">
+          <div className="text-[26px] dark:text-black font-bold">
             <FaRegMoon />
           </div>
         ) : (
