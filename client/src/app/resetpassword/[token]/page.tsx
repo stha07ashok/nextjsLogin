@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-import api from "../api/user/routes";
+import api from "../../api/user/routes";
 
 const ResetPasswordPage = () => {
   const { token } = useParams();

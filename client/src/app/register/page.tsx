@@ -85,6 +85,25 @@ const RegisterPage = () => {
     }
   };
 
+  const handleRegisterWithGoogle = async () => {
+    try {
+      const res = await api.get("/auth/google");
+      window.location.href = res.data.url;
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Google Registration Failed",
+        text:
+          (error as any).response?.data?.message ||
+          "Something went wrong. Try again.",
+        timer: 2000,
+        timerProgressBar: true,
+        position: "top",
+        showConfirmButton: false,
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen text-2xl text-black flex items-center justify-center">
       <div className="max-w-md mx-auto p-8 bg-white rounded-2xl shadow-lg space-y-6 mt-10">
@@ -163,6 +182,15 @@ const RegisterPage = () => {
             </button>
           </div>
         )}
+
+        <div className="flex items-center justify-center">OR</div>
+
+        <button
+          onClick={handleRegisterWithGoogle}
+          className="w-full bg-green-400 hover:bg-green-600 hover:text-white text-black font-semibold py-2 rounded-lg transition duration-200 px-4 "
+        >
+          Register with Google!!
+        </button>
 
         {!showVerificationInput && (
           <p className="align-baseline font-medium mt-4 text-xl">
