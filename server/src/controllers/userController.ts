@@ -54,7 +54,11 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     generateTokenAndSetCookie(res, createdUser.id);
 
     //send verification email
-    await sendVerificationEmail(createdUser.email, Number(verificationToken));
+    try {
+      await sendVerificationEmail(createdUser.email, Number(verificationToken));
+    } catch (emailError) {
+      console.log("Verification code (email failed):", verificationToken);
+    }
 
     // Send success response
     res.status(201).json({
@@ -142,6 +146,11 @@ export const login: RequestHandler = async (
       return;
     }
 
+    if (!user.isVerified) {
+      res.status(400).json({ success: false, message: "Please verify your email before logging in" });
+      return;
+    }
+
     const token = generateTokenAndSetCookie(res, user.id);
 
     user.lastLogin = new Date();
@@ -199,10 +208,14 @@ export const forgetpassword: RequestHandler = async (
     console.log("Reset token expiry:", resetTokenExpiresAt);
 
     // send email
-    await sendPasswordResetEmail(
-      user.email,
-      `${process.env.CLIENT_URL}/resetpassword/${resetToken}`
-    );
+    try {
+      await sendPasswordResetEmail(
+        user.email,
+        `${process.env.CLIENT_URL}/resetpassword/${resetToken}`
+      );
+    } catch (emailError) {
+      console.log("Password reset link (email failed):", `${process.env.CLIENT_URL}/resetpassword/${resetToken}`);
+    }
 
     res.status(200).json({
       success: true,
@@ -250,7 +263,11 @@ export const resetPassword = async (
     user.resetPasswordExpiresAt = undefined;
     await user.save();
 
-    await sendResetSuccessEmail(user.email);
+    try {
+      await sendResetSuccessEmail(user.email);
+    } catch (emailError) {
+      console.log("Reset success email failed to send");
+    }
 
     res
       .status(200)

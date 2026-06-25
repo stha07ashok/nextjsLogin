@@ -2,79 +2,98 @@
 import React, { useEffect, useState } from "react";
 import { TbHomeSpark } from "react-icons/tb";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { HiMenu, HiX } from "react-icons/hi";
 import Link from "next/link";
 import DarkMode from "./darkMode";
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // Check login status on client and listen for changes
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuth = () => {
       const user = localStorage.getItem("user");
       const token = localStorage.getItem("authToken");
-      if (user && token) {
-        setIsLoggedIn(true);
-      }
+      setIsLoggedIn(!!(user && token));
     };
 
-    // Check on initial load
     checkAuth();
 
-    // Listen for changes in login status
     const handleAuthChange = (e: CustomEvent) => {
-      setIsLoggedIn(e.detail); // Update the login state when event is fired
+      setIsLoggedIn(e.detail);
     };
 
-    // Attach the event listener
     window.addEventListener("authChange", handleAuthChange as EventListener);
-
-    // Clean up the event listener when the component unmounts
     return () => {
-      window.removeEventListener(
-        "authChange",
-        handleAuthChange as EventListener
-      );
+      window.removeEventListener("authChange", handleAuthChange as EventListener);
     };
   }, []);
 
+  const navLinks = [
+    { href: "/", label: "Home", icon: <TbHomeSpark /> },
+    {
+      href: isLoggedIn ? "/profile" : "/login",
+      label: isLoggedIn ? "Profile" : "Login",
+      icon: <FaRegCircleUser />,
+    },
+  ];
+
   return (
-    <nav className="flex items-center justify-between px-10 py-4 mx-12  my-6 bg-green-400 rounded-2xl shadow-lg">
-      {/* Left side */}
-      <div className="flex items-center space-x-6">
+    <nav className="relative z-50 mx-4 sm:mx-8 lg:mx-12 my-4 sm:my-6">
+      <div className="flex items-center justify-between px-4 sm:px-8 py-3 sm:py-4 bg-green-500 dark:bg-green-600 rounded-2xl shadow-lg">
+        {/* Logo / Brand */}
         <Link
           href="/"
-          className="flex items-center space-x-2 text-black text-2xl hover:text-white transition-colors"
+          className="flex items-center gap-2 text-white font-bold text-xl tracking-tight"
         >
-          <TbHomeSpark />
-          <span className="hidden sm:inline">Home</span>
+          <TbHomeSpark className="text-2xl" />
+          <span className="hidden sm:inline">AuthApp</span>
         </Link>
-      </div>
 
-      {/* Right side */}
-      <div className="flex items-center gap-6">
-        <div className="text-3xl space-y-3 text-black dark:text-white">
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="flex items-center gap-2 text-white/90 hover:text-white text-lg font-medium transition-colors"
+            >
+              {link.icon}
+              <span>{link.label}</span>
+            </Link>
+          ))}
           <DarkMode />
         </div>
 
-        {isLoggedIn ? (
-          <Link
-            href="/profile"
-            className="flex items-center space-x-2 text-black text-2xl hover:text-white transition-colors"
+        {/* Mobile right side */}
+        <div className="flex md:hidden items-center gap-3">
+          <DarkMode />
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="text-white text-2xl p-1"
+            aria-label="Toggle menu"
           >
-            <FaRegCircleUser />
-            <span className="hidden sm:inline">Profile</span>
-          </Link>
-        ) : (
-          <Link
-            href="/login"
-            className="flex items-center space-x-2 text-black text-2xl hover:text-white transition-colors"
-          >
-            <FaRegCircleUser />
-            <span className="hidden sm:inline">Login</span>
-          </Link>
-        )}
+            {menuOpen ? <HiX /> : <HiMenu />}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile dropdown */}
+      {menuOpen && (
+        <div className="absolute top-full left-4 right-4 mt-2 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-slide-down md:hidden">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-3 px-6 py-4 text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-500/10 transition-colors text-lg font-medium border-b border-gray-100 dark:border-gray-800"
+            >
+              <span className="text-green-500">{link.icon}</span>
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      )}
     </nav>
   );
 };

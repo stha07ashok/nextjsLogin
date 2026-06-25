@@ -1,11 +1,15 @@
-import express, { Request, Response } from "express";
+import dns from "dns";
+dns.setDefaultResultOrder("ipv4first");
 import dotenv from "dotenv";
+dotenv.config();
+import express, { Request, Response } from "express";
 import { initializeDatabase } from "./database/connectDB";
 import cookieParser from "cookie-parser";
 import { router } from "./routes/user.routers";
 import cors from "cors";
 
-dotenv.config();
+
+
 
 const app = express();
 const port = process.env.PORT;

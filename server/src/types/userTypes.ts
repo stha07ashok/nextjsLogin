@@ -6,8 +6,8 @@ export interface user {
   isVerified: boolean;
   resetPasswordToken?: string;
   resetPasswordExpiresAt?: Date;
-  verificationToken: string;
-  verificationTokenExpiresAt: Date;
+  verificationToken?: string;
+  verificationTokenExpiresAt?: Date;
   createdAt?: Date;
   updatedAt?: Date;
 }
