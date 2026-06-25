@@ -6,6 +6,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 import Link from "next/link";
 import DarkMode from "./darkMode";
 
+// Navbar
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -41,7 +42,6 @@ const Navbar = () => {
   return (
     <nav className="relative z-50 mx-4 sm:mx-8 lg:mx-12 my-4 sm:my-6">
       <div className="flex items-center justify-between px-4 sm:px-8 py-3 sm:py-4 bg-green-500 dark:bg-green-600 rounded-2xl shadow-lg">
-        {/* Logo / Brand */}
         <Link
           href="/"
           className="flex items-center gap-2 text-white font-bold text-xl tracking-tight"
@@ -50,7 +50,6 @@ const Navbar = () => {
           <span className="hidden sm:inline">AuthApp</span>
         </Link>
 
-        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
@@ -65,7 +64,6 @@ const Navbar = () => {
           <DarkMode />
         </div>
 
-        {/* Mobile right side */}
         <div className="flex md:hidden items-center gap-3">
           <DarkMode />
           <button
@@ -78,7 +76,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
       {menuOpen && (
         <div className="absolute top-full left-4 right-4 mt-2 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-slide-down md:hidden">
           {navLinks.map((link) => (

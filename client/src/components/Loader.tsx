@@ -1,5 +1,6 @@
 "use client";
 
+// Spinner loader
 const Loader = ({ className }: { className?: string }) => (
   <svg
     className={`animate-spin h-5 w-5 text-white ${className || ""}`}

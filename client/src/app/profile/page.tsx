@@ -8,6 +8,7 @@ import { MdLogout, MdEmail } from "react-icons/md";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 
+// Profile page
 const ProfilePage = () => {
   const router = useRouter();
   const [user, setUser] = useState<{ email?: string } | null>(null);
@@ -22,6 +23,7 @@ const ProfilePage = () => {
     }
   }, []);
 
+  // Logout handler
   const handleLogout = async () => {
     setLoggingOut(true);
     try {

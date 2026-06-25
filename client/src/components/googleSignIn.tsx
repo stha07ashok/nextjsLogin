@@ -8,6 +8,7 @@ interface GoogleSignInProps {
   mode?: "login" | "register";
 }
 
+// Decode JWT payload
 function decodeJwt<T>(token: string): T | null {
   try {
     const base64 = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
@@ -17,10 +18,12 @@ function decodeJwt<T>(token: string): T | null {
   }
 }
 
+// Google sign-in button
 const GoogleSignIn = ({ mode = "login" }: GoogleSignInProps) => {
   const router = useRouter();
   const buttonRef = useRef<HTMLDivElement>(null);
 
+  // Initialize GIS script
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";

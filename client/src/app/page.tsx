@@ -19,10 +19,10 @@ const features = [
   },
 ];
 
+// Landing page
 export default function Page() {
   return (
     <div className="min-h-[calc(100vh-8rem)] flex flex-col items-center justify-center px-4 py-12">
-      {/* Hero */}
       <div className="animate-fade-in text-center max-w-3xl mx-auto mb-16">
         <h1 className="text-5xl md:text-7xl font-extrabold text-green-500 mb-6 tracking-tight">
           Welcome Home
@@ -47,7 +47,6 @@ export default function Page() {
         </div>
       </div>
 
-      {/* Features */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl w-full animate-fade-in" style={{ animationDelay: "0.2s" }}>
         {features.map((f, i) => (
           <div

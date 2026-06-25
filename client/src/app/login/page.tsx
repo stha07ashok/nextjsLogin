@@ -12,9 +12,11 @@ import Loader from "@/components/Loader";
 import { MdEmail, MdLock, MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { isAxiosError } from "axios";
 
+// Axios error message
 const getErrorMessage = (error: unknown): string =>
   isAxiosError(error) ? error.response?.data?.message || "Something went wrong, please try again." : "Something went wrong, please try again.";
 
+// Login page
 const LoginPage = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -25,6 +27,7 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<loginFormDataProps>();
 
+  // Forgot password
   const handleForgotPassword = async () => {
     const { value: email } = await Swal.fire({
       title: "Enter your email",
@@ -63,6 +66,7 @@ const LoginPage = () => {
     }
   };
 
+  // Submit login
   const onSubmit: SubmitHandler<loginFormDataProps> = async (data) => {
     setLoading(true);
     try {

@@ -2,6 +2,7 @@ import { Response } from "express";
 
 import jwt from "jsonwebtoken";
 
+// Generate JWT
 export const generateTokenAndSetCookie = (res: Response, userId: string) => {
   if (!process.env.JWT_SECRET) {
     throw new Error("JWT_SECRET is not defined in environment variables");

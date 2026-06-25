@@ -3,6 +3,7 @@ import { useTheme } from "next-themes";
 import { BiSun } from "react-icons/bi";
 import { FaRegMoon } from "react-icons/fa";
 
+// Theme toggle
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 

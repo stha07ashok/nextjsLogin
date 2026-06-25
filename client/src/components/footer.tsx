@@ -1,6 +1,7 @@
 import React from "react";
 import { TbHomeSpark } from "react-icons/tb";
 
+// App footer
 const Footer = () => {
   return (
     <footer className="w-full py-8 px-4 bg-gray-50 dark:bg-white/5 border-t border-gray-200 dark:border-white/10">

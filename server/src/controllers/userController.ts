@@ -15,7 +15,7 @@ interface AuthenticatedRequest extends Request {
   userId?: string;
 }
 
-//user registration
+// Register user
 export const signup = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
@@ -24,43 +24,36 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
       throw new Error("All fields are required");
     }
 
-    // Check if user already exists
     const userAlreadyExists = await User.findOne({ where: { email } });
     if (userAlreadyExists) {
       res.status(400).json({ success: false, message: "User already exists" });
       return;
     }
 
-    // Hash the password
     const hashedPassword = await bcryptjs.hash(password, 10);
     const verificationToken = Math.floor(
       100000 + Math.random() * 900000
     ).toString();
 
-    // Create the user object
     const newUser = {
       email,
       password: hashedPassword,
       verificationToken,
-      verificationTokenExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+      verificationTokenExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
       lastLogin: new Date(),
       isVerified: false,
     };
 
-    // Save the user to the database
     const createdUser = await User.create(newUser);
 
-    // Generate JWT token and set it as a cookie
     generateTokenAndSetCookie(res, createdUser.id);
 
-    //send verification email
     try {
       await sendVerificationEmail(createdUser.email, Number(verificationToken));
     } catch (emailError) {
       console.log("Verification code (email failed):", verificationToken);
     }
 
-    // Send success response
     res.status(201).json({
       success: true,
       message: "User created successfully",
@@ -78,7 +71,7 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-//verify email
+// Verify email
 export const verifyEmail: RequestHandler = async (
   req: Request,
   res: Response,
@@ -128,7 +121,7 @@ export const verifyEmail: RequestHandler = async (
   }
 };
 
-//user login
+// Login user
 export const login: RequestHandler = async (
   req: Request,
   res: Response
@@ -175,13 +168,13 @@ export const login: RequestHandler = async (
   }
 };
 
-//user logout
+// Logout user
 export const logout = async (req: Request, res: Response) => {
   res.clearCookie("token");
   res.status(200).json({ success: true, message: "Logged out successfully" });
 };
 
-//forget password
+// Forgot password
 export const forgetpassword: RequestHandler = async (
   req: Request,
   res: Response
@@ -195,9 +188,8 @@ export const forgetpassword: RequestHandler = async (
       return;
     }
 
-    // Generate reset token
     const resetToken = crypto.randomBytes(20).toString("hex");
-    const resetTokenExpiresAt = new Date(Date.now() + 1 * 60 * 60 * 1000); // 1 hour
+    const resetTokenExpiresAt = new Date(Date.now() + 1 * 60 * 60 * 1000);
 
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpiresAt = resetTokenExpiresAt;
@@ -207,7 +199,6 @@ export const forgetpassword: RequestHandler = async (
     console.log("Generated reset token:", resetToken);
     console.log("Reset token expiry:", resetTokenExpiresAt);
 
-    // send email
     try {
       await sendPasswordResetEmail(
         user.email,
@@ -227,7 +218,7 @@ export const forgetpassword: RequestHandler = async (
   }
 };
 
-//reset password
+// Reset password
 export const resetPassword = async (
   req: Request,
   res: Response
@@ -255,7 +246,6 @@ export const resetPassword = async (
       return;
     }
 
-    // update password
     const hashedPassword = await bcryptjs.hash(password, 10);
 
     user.password = hashedPassword;
@@ -278,7 +268,7 @@ export const resetPassword = async (
   }
 };
 
-//check auth
+// Check auth
 export const checkAuth = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findOne({

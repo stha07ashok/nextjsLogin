@@ -7,9 +7,11 @@ import api from "../../api/user/routes";
 import { MdLock, MdLockReset } from "react-icons/md";
 import { isAxiosError } from "axios";
 
+// Axios error message
 const getErrorMessage = (error: unknown): string =>
   isAxiosError(error) ? error.response?.data?.message || "Failed to reset password." : "Failed to reset password.";
 
+// Reset password page
 const ResetPasswordPage = () => {
   const { token } = useParams();
   const router = useRouter();
@@ -17,6 +19,7 @@ const ResetPasswordPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Handle reset
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
 

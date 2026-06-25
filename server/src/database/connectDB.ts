@@ -20,6 +20,7 @@ const sequelize = new Sequelize({
   }
 });
 
+// Init database
 export const initializeDatabase = async () => {
   try {
     await sequelize.authenticate();

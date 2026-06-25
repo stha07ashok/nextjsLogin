@@ -1,4 +1,3 @@
-// mailer/mailer.ts
 import transporter, { sender } from "./nodemailer.config";
 import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
@@ -6,6 +5,7 @@ import {
   VERIFICATION_EMAIL_TEMPLATE,
 } from "./emailTemplate";
 
+// Send email
 const sendMail = async ({
   to,
   subject,
@@ -30,6 +30,7 @@ const sendMail = async ({
   }
 };
 
+// Verification email
 export const sendVerificationEmail = async (
   email: string,
   verificationToken: number
@@ -43,6 +44,7 @@ export const sendVerificationEmail = async (
   await sendMail({ to: email, subject, html });
 };
 
+// Welcome email
 export const sendWelcomeEmail = async (email: string, name: string) => {
   const subject = "Welcome to Auth Company";
   const html = `
@@ -53,6 +55,7 @@ export const sendWelcomeEmail = async (email: string, name: string) => {
   await sendMail({ to: email, subject, html });
 };
 
+// Reset link email
 export const sendPasswordResetEmail = async (
   email: string,
   resetURL: string
@@ -63,6 +66,7 @@ export const sendPasswordResetEmail = async (
   await sendMail({ to: email, subject, html });
 };
 
+// Reset success email
 export const sendResetSuccessEmail = async (email: string) => {
   const subject = "Password Reset Successful";
   const html = PASSWORD_RESET_SUCCESS_TEMPLATE;

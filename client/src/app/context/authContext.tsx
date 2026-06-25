@@ -1,4 +1,3 @@
-// src/app/context/authContext.ts
 "use client";
 import React, {
   createContext,
@@ -9,17 +8,15 @@ import React, {
 } from "react";
 import api from "../api/user/routes";
 
-// Define the types for the context
 interface AuthContextType {
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   logout: () => Promise<void>;
 }
 
-// Create a context with a default value of undefined
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Provider component
+// Auth provider
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
@@ -50,7 +47,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom hook to use authentication context
+// Auth hook
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {

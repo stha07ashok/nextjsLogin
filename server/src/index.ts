@@ -19,12 +19,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
+// Health check
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
 app.use("/api", router);
 
+// Start server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
   initializeDatabase();

@@ -11,9 +11,11 @@ import Loader from "@/components/Loader";
 import { MdEmail, MdLock, MdMarkEmailRead, MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { isAxiosError } from "axios";
 
+// Axios error message
 const getErrorMessage = (error: unknown): string =>
   isAxiosError(error) ? error.response?.data?.message || "Something went wrong. Try again." : "Something went wrong. Try again.";
 
+// Register page
 const RegisterPage = () => {
   const router = useRouter();
   const [emailForVerification, setEmailForVerification] = useState("");
@@ -28,6 +30,7 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm<registerFormDataProps>();
 
+  // Submit registration
   const onSubmit: SubmitHandler<registerFormDataProps> = async (data) => {
     setLoading(true);
     try {
@@ -57,6 +60,7 @@ const RegisterPage = () => {
     setLoading(false);
   };
 
+  // Verify code
   const handleVerificationSubmit = async () => {
     setVerifying(true);
     try {

@@ -21,6 +21,7 @@ export const metadata: Metadata = {
   description: "A modern authentication app with login, registration, and password management.",
 };
 
+// Root layout wrapper
 export default function RootLayout({
   children,
 }: Readonly<{

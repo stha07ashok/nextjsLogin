@@ -3,6 +3,7 @@
 import { ThemeProvider } from "next-themes";
 import { useEffect, useState } from "react";
 
+// Theme provider
 export default function CustomThemeProvider({
   children,
 }: {
